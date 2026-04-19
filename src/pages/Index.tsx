@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <main className="relative h-screen overflow-hidden bg-background">
-      <Nav active={active} onSelect={setActive} />
+      <Nav active={active} onSelect={setActive} onHome={() => setActive(null)} />
       <Hero />
       <SectionOverlay active={active} onClose={() => setActive(null)} />
     </main>

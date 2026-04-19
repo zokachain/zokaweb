@@ -1,3 +1,5 @@
+import ThemeToggle from "./ThemeToggle";
+
 export type SectionKey = "about" | "whitepaper" | "docs" | "github" | "wallet";
 
 const links: { key: SectionKey; label: string }[] = [
@@ -11,14 +13,15 @@ const links: { key: SectionKey; label: string }[] = [
 interface NavProps {
   active: SectionKey | null;
   onSelect: (key: SectionKey) => void;
+  onHome: () => void;
 }
 
-const Nav = ({ active, onSelect }: NavProps) => (
+const Nav = ({ active, onSelect, onHome }: NavProps) => (
   <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/30">
     <nav className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-20">
       <button
-        onClick={() => onSelect("about")}
-        className="font-mono text-sm tracking-[0.3em] text-foreground"
+        onClick={onHome}
+        className="font-mono text-sm tracking-[0.3em] text-foreground hover:opacity-70 transition-opacity"
         aria-label="ZOKA home"
       >
         ZOKA
@@ -35,6 +38,7 @@ const Nav = ({ active, onSelect }: NavProps) => (
             {l.label}
           </button>
         ))}
+        <ThemeToggle />
       </div>
     </nav>
   </header>
