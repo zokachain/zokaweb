@@ -1,22 +1,22 @@
 import Nav from "@/components/zoka/Nav";
 import Hero from "@/components/zoka/Hero";
-import Marquee from "@/components/zoka/Marquee";
-import Features from "@/components/zoka/Features";
-import Architecture from "@/components/zoka/Architecture";
-import Network from "@/components/zoka/Network";
-import CTA from "@/components/zoka/CTA";
+import Concept from "@/components/zoka/Concept";
+import Vision from "@/components/zoka/Vision";
+import Protocol from "@/components/zoka/Protocol";
+import Manifesto from "@/components/zoka/Manifesto";
 import Footer from "@/components/zoka/Footer";
+import { useReveal } from "@/hooks/use-reveal";
 
 const Index = () => {
+  useReveal();
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-screen overflow-x-hidden bg-background">
       <Nav />
       <Hero />
-      <Marquee />
-      <Features />
-      <Architecture />
-      <Network />
-      <CTA />
+      <Concept />
+      <Vision />
+      <Protocol />
+      <Manifesto />
       <Footer />
     </main>
   );

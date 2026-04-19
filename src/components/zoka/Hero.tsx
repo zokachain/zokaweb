@@ -1,55 +1,35 @@
-import heroImg from "@/assets/zoka-hero.jpg";
+const Hero = () => (
+  <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+    {/* ambient gradients */}
+    <div className="absolute inset-0 grid-bg" />
+    <div
+      className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full pointer-events-none"
+      style={{ background: "var(--gradient-glow)", animation: "drift 18s ease-in-out infinite" }}
+    />
+    <div
+      className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+      style={{ background: "var(--gradient-violet)", animation: "drift 22s ease-in-out infinite reverse" }}
+    />
 
-const Hero = () => {
-  return (
-    <section className="relative pt-32 pb-24 overflow-hidden">
-      <div className="container relative z-10">
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full border border-border bg-card/50 backdrop-blur font-mono text-xs text-muted-foreground animate-fade-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
-            MAINNET v0.2 — ZK-SNARKS LIVE
-          </div>
-
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.95] mb-8 animate-fade-up">
-            The privacy layer<br />
-            <span className="text-gradient">for a transparent web.</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed animate-fade-up">
-            ZOKA is an open blockchain network where computation, identity and value
-            move encrypted by default. Built on zero-knowledge proofs, owned by no one.
-          </p>
-
-          <div className="flex flex-wrap gap-4 animate-fade-up">
-            <a href="#start" className="group relative px-6 py-3 bg-primary text-primary-foreground font-mono text-sm font-semibold rounded hover:glow transition-all">
-              Run a node →
-            </a>
-            <a href="#docs" className="px-6 py-3 border border-border hover:border-primary text-foreground font-mono text-sm rounded transition-all">
-              Read whitepaper
-            </a>
-          </div>
-        </div>
-
-        <div className="relative mt-20 rounded-lg overflow-hidden border border-border border-glow noise">
-          <img src={heroImg} alt="ZOKA encrypted blockchain network visualization" className="w-full h-auto opacity-90" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-6 font-mono text-xs">
-            <Stat label="VALIDATORS" value="2,847" />
-            <Stat label="ENCRYPTED TX / DAY" value="1.2M" />
-            <Stat label="ZK PROOFS" value="48.6M" />
-            <Stat label="UPTIME" value="99.99%" />
-          </div>
-        </div>
+    <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
+      <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase">
+        ZOKA / Privacy Protocol
       </div>
-    </section>
-  );
-};
 
-const Stat = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex flex-col">
-    <span className="text-muted-foreground">{label}</span>
-    <span className="text-foreground text-base font-semibold">{value}</span>
-  </div>
+      <h1 className="text-[clamp(3rem,9vw,9rem)] font-extralight leading-[0.95] tracking-[-0.04em] max-w-6xl">
+        A network<br />
+        <span className="text-gradient font-light">without witnesses.</span>
+      </h1>
+
+      <p className="mt-12 max-w-xl text-base md:text-lg text-muted-foreground font-light leading-relaxed">
+        ZOKA is a cryptographic substrate for value, computation and identity —
+        encrypted by mathematics, owned by no one.
+      </p>
+    </div>
+
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.4em] text-muted-foreground uppercase animate-[pulse-soft_3s_ease-in-out_infinite]">
+      Scroll
+    </div>
+  </section>
 );
-
 export default Hero;
