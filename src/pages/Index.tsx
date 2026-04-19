@@ -1,23 +1,16 @@
-import Nav from "@/components/zoka/Nav";
+import { useState } from "react";
+import Nav, { type SectionKey } from "@/components/zoka/Nav";
 import Hero from "@/components/zoka/Hero";
-import Concept from "@/components/zoka/Concept";
-import Vision from "@/components/zoka/Vision";
-import Protocol from "@/components/zoka/Protocol";
-import Manifesto from "@/components/zoka/Manifesto";
-import Footer from "@/components/zoka/Footer";
-import { useReveal } from "@/hooks/use-reveal";
+import SectionOverlay from "@/components/zoka/SectionOverlay";
 
 const Index = () => {
-  useReveal();
+  const [active, setActive] = useState<SectionKey | null>(null);
+
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-background">
-      <Nav />
+    <main className="relative h-screen overflow-hidden bg-background">
+      <Nav active={active} onSelect={setActive} />
       <Hero />
-      <Concept />
-      <Vision />
-      <Protocol />
-      <Manifesto />
-      <Footer />
+      <SectionOverlay active={active} onClose={() => setActive(null)} />
     </main>
   );
 };
