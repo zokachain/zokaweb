@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 
 /**
  * Quantum / privacy field — monochrome.
- * Renders a probability cloud of particles that periodically "collapse"
- * (encrypt) into wave interference rings, then disperse again. No colour.
+ * Probability cloud of particles that periodically "collapse" into
+ * wave interference rings, then disperse again. No colour.
  */
 const QuantumField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,37 +42,38 @@ const QuantumField = () => {
       size: 0.4 + Math.random() * 1.2,
     }));
 
-    // Read foreground colour from CSS so it adapts to light/dark themes.
-    const getFg = () => {
-      const v = getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim();
-      return v || "0 0% 98%";
+    // Read theme tokens from CSS so the animation adapts to dark/light.
+    // Use modern hsl(H S L / A) syntax which supports space-separated values.
+    const getTokens = () => {
+      const styles = getComputedStyle(document.documentElement);
+      const fg = styles.getPropertyValue("--foreground").trim() || "0 0% 98%";
+      const bg = styles.getPropertyValue("--background").trim() || "0 0% 0%";
+      return { fg, bg };
     };
 
     let raf = 0;
-    let start = performance.now();
+    const start = performance.now();
 
     const tick = (now: number) => {
       const t = (now - start) / 1000;
       const cx = width / 2;
       const cy = height / 2;
-      const fg = getFg();
+      const { fg, bg } = getTokens();
 
-      // Trail effect — paint a translucent background rectangle.
-      // Use the actual page background so it works in both themes.
-      const bg = getComputedStyle(document.documentElement).getPropertyValue("--background").trim() || "0 0% 0%";
-      ctx.fillStyle = `hsla(${bg}, 0.18)`;
+      // Trail effect using the page background.
+      ctx.fillStyle = `hsl(${bg} / 0.18)`;
       ctx.fillRect(0, 0, width, height);
 
-      // Quantum collapse cycle — every ~6s, particles contract toward centre.
-      const cycle = (t % 6) / 6; // 0..1
-      const collapse = Math.pow(Math.sin(cycle * Math.PI), 6); // sharp pulse near middle of cycle
+      // Quantum collapse cycle — every ~6s.
+      const cycle = (t % 6) / 6;
+      const collapse = Math.pow(Math.sin(cycle * Math.PI), 6);
 
       // Concentric interference rings (probability waves)
       ctx.lineWidth = 0.5;
       for (let i = 0; i < 5; i++) {
         const r = ((t * 30 + i * 90) % 500) + 20;
-        const alpha = (1 - r / 520) * 0.12 * (1 - collapse * 0.5);
-        ctx.strokeStyle = `hsla(${fg}, ${alpha})`;
+        const alpha = (1 - r / 520) * 0.15 * (1 - collapse * 0.5);
+        ctx.strokeStyle = `hsl(${fg} / ${alpha})`;
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
         ctx.stroke();
@@ -84,21 +85,21 @@ const QuantumField = () => {
         const jitter = Math.sin(t * 2 + p.phase) * 12;
         const r = p.radius * (1 - collapse * 0.55) + jitter;
         p.x = cx + Math.cos(p.angle) * r;
-        p.y = cy + Math.sin(p.angle) * r * 0.55; // ellipse
+        p.y = cy + Math.sin(p.angle) * r * 0.55;
 
         const a = 0.35 + Math.sin(t * 1.5 + p.phase) * 0.25 + collapse * 0.4;
-        ctx.fillStyle = `hsla(${fg}, ${Math.max(0.05, a)})`;
+        ctx.fillStyle = `hsl(${fg} / ${Math.max(0.05, a)})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size + collapse * 0.6, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Faint vertical scan line — like a measurement passing through
+      // Faint vertical scan line — a measurement passing through
       const scanX = ((t * 80) % (width + 200)) - 100;
       const grad = ctx.createLinearGradient(scanX - 60, 0, scanX + 60, 0);
-      grad.addColorStop(0, `hsla(${fg}, 0)`);
-      grad.addColorStop(0.5, `hsla(${fg}, 0.06)`);
-      grad.addColorStop(1, `hsla(${fg}, 0)`);
+      grad.addColorStop(0, `hsl(${fg} / 0)`);
+      grad.addColorStop(0.5, `hsl(${fg} / 0.08)`);
+      grad.addColorStop(1, `hsl(${fg} / 0)`);
       ctx.fillStyle = grad;
       ctx.fillRect(scanX - 60, 0, 120, height);
 
