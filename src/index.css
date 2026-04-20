@@ -5,8 +5,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root,
-  .dark {
+  :root {
     --background: 0 0% 0%;
     --foreground: 0 0% 98%;
 
@@ -44,7 +43,7 @@
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .light {
+  html.light {
     --background: 0 0% 100%;
     --foreground: 0 0% 4%;
 
