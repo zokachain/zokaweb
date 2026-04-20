@@ -94,15 +94,6 @@ const QuantumField = () => {
         ctx.fill();
       }
 
-      // Faint vertical scan line — a measurement passing through
-      const scanX = ((t * 80) % (width + 200)) - 100;
-      const grad = ctx.createLinearGradient(scanX - 60, 0, scanX + 60, 0);
-      grad.addColorStop(0, `hsl(${fg} / 0)`);
-      grad.addColorStop(0.5, `hsl(${fg} / 0.08)`);
-      grad.addColorStop(1, `hsl(${fg} / 0)`);
-      ctx.fillStyle = grad;
-      ctx.fillRect(scanX - 60, 0, 120, height);
-
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
