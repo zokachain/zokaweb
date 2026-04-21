@@ -187,4 +187,22 @@
     color: transparent;
     animation: zk-shimmer 4s linear infinite, zk-glow 3s ease-in-out infinite;
   }
+
+  .zk-redact {
+    position: absolute;
+    inset: -2px -4px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.06) 30%,
+      hsl(var(--foreground) / 0.18) 50%,
+      hsl(var(--foreground) / 0.06) 70%,
+      transparent 100%
+    );
+    mix-blend-mode: difference;
+    animation: zk-redact-sweep 5s ease-in-out infinite;
+    animation-delay: 1.5s;
+    border-radius: 2px;
+  }
 }
