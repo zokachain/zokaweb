@@ -133,3 +133,50 @@
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
+
+@keyframes zk-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes zk-glow {
+  0%, 100% { text-shadow: 0 0 20px hsl(var(--foreground) / 0.15), 0 0 40px hsl(var(--foreground) / 0.05); }
+  50% { text-shadow: 0 0 30px hsl(var(--foreground) / 0.35), 0 0 60px hsl(var(--foreground) / 0.15); }
+}
+
+@layer utilities {
+  .zk-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 9999px;
+    background: hsl(var(--foreground) / 0.02);
+    backdrop-filter: blur(8px);
+  }
+  .zk-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: hsl(var(--foreground));
+    box-shadow: 0 0 12px hsl(var(--foreground) / 0.6);
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .zk-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted-foreground)) 0%,
+      hsl(var(--foreground)) 50%,
+      hsl(var(--muted-foreground)) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: zk-shimmer 4s linear infinite, zk-glow 3s ease-in-out infinite;
+  }
+}
