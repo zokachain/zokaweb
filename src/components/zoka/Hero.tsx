@@ -22,9 +22,8 @@ const Hero = () => (
         <div className="zk-badge font-mono text-[10px] tracking-[0.3em] uppercase text-foreground/70">
           Powered by
         </div>
-        <div className="relative font-mono text-base md:text-xl tracking-[0.15em] uppercase zk-shimmer font-medium">
-          Zero-Knowledge Proofs
-          <span className="zk-redact" aria-hidden="true" />
+        <div className="relative font-mono text-base md:text-xl tracking-[0.15em] uppercase font-medium text-foreground/90">
+          <span className="zk-melt">Zero-Knowledge Proofs</span>
         </div>
       </div>
 
