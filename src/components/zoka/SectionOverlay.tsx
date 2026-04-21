@@ -33,13 +33,33 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
       </>
     ),
     body: (
-      <p>
-        The ZOKA whitepaper outlines a four-layer protocol combining zk-SNARKs,
-        secure multi-party computation, and a shielded execution environment.
-        <span className="block mt-6 text-muted-foreground/70 font-mono text-xs tracking-[0.2em] uppercase">
-          Coming soon · v0.1 draft
+      <div>
+        <p>
+          The ZOKA whitepaper outlines a four-layer protocol combining zk-SNARKs,
+          secure multi-party computation, and a shielded execution environment.
+        </p>
+        <div className="mt-10 flex flex-wrap items-center gap-6">
+          <a
+            href="/ZOKA_Whitepaper_v1.0.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.3em] uppercase text-foreground"
+          >
+            <span>Read whitepaper</span>
+            <span className="opacity-60 group-hover:opacity-100 transition-opacity">↗</span>
+          </a>
+          <a
+            href="/ZOKA_Whitepaper_v1.0.pdf"
+            download
+            className="font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Download PDF
+          </a>
+        </div>
+        <span className="block mt-8 font-mono text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
+          v1.0 · Released
         </span>
-      </p>
+      </div>
     ),
   },
   docs: {
