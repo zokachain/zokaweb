@@ -18,6 +18,10 @@ const Hero = () => (
         <span className="text-gradient font-light">without witnesses.</span>
       </h1>
 
+      <div className="mt-8 font-mono text-sm md:text-base tracking-[0.2em] text-foreground/80 uppercase animate-fade-in">
+        ¡Zero-Knowledge Proofs!
+      </div>
+
       <p className="mt-12 max-w-xl text-base md:text-lg text-muted-foreground font-light leading-relaxed animate-fade-in">
         ZOKA is a cryptographic substrate for value, computation and identity —
         encrypted by mathematics, owned by no one.
