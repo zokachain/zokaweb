@@ -18,16 +18,13 @@ const Hero = () => (
         <span className="text-gradient font-light">without witnesses.</span>
       </h1>
 
-      <div className="mt-8 font-mono text-sm md:text-base tracking-[0.2em] text-foreground/80 uppercase animate-fade-in">
-        ¡Zero-Knowledge Proofs!
-      </div>
-
       <div className="mt-10 flex items-center gap-4 animate-fade-in">
         <div className="zk-badge font-mono text-[10px] tracking-[0.3em] uppercase text-foreground/70">
           Powered by
         </div>
-        <div className="font-mono text-base md:text-xl tracking-[0.15em] uppercase zk-shimmer font-medium">
+        <div className="relative font-mono text-base md:text-xl tracking-[0.15em] uppercase zk-shimmer font-medium">
           Zero-Knowledge Proofs
+          <span className="zk-redact" aria-hidden="true" />
         </div>
       </div>
 
