@@ -144,12 +144,17 @@
   50% { text-shadow: 0 0 30px hsl(var(--foreground) / 0.35), 0 0 60px hsl(var(--foreground) / 0.15); }
 }
 
-@keyframes zk-redact-sweep {
-  0%   { transform: translateX(-10%); opacity: 0; }
-  10%  { opacity: 0.9; }
-  50%  { opacity: 0.9; }
-  90%  { opacity: 0.9; }
-  100% { transform: translateX(110%); opacity: 0; }
+@keyframes zk-melt {
+  0%   { opacity: 0; filter: blur(14px); transform: translateY(-6px) scaleY(1.15); letter-spacing: 0.25em; }
+  25%  { opacity: 1; filter: blur(0px);  transform: translateY(0)    scaleY(1);    letter-spacing: 0.15em; }
+  65%  { opacity: 1; filter: blur(0px);  transform: translateY(0)    scaleY(1);    letter-spacing: 0.15em; }
+  85%  { opacity: 0.6; filter: blur(6px); transform: translateY(8px)  scaleY(1.4);  letter-spacing: 0.3em; }
+  100% { opacity: 0; filter: blur(18px); transform: translateY(20px) scaleY(2);    letter-spacing: 0.4em; }
+}
+
+@keyframes zk-dot-pulse {
+  0%, 100% { box-shadow: 0 0 8px hsl(160 84% 55% / 0.5), 0 0 16px hsl(160 84% 55% / 0.25); opacity: 0.85; }
+  50%      { box-shadow: 0 0 14px hsl(160 84% 60% / 0.9), 0 0 28px hsl(160 84% 60% / 0.45); opacity: 1; }
 }
 
 @layer utilities {
@@ -169,9 +174,8 @@
     width: 6px;
     height: 6px;
     border-radius: 9999px;
-    background: hsl(var(--foreground));
-    box-shadow: 0 0 12px hsl(var(--foreground) / 0.6);
-    animation: pulse-soft 2s ease-in-out infinite;
+    background: hsl(160 84% 55%);
+    animation: zk-dot-pulse 2.4s ease-in-out infinite;
   }
 
   .zk-shimmer {
@@ -188,21 +192,9 @@
     animation: zk-shimmer 4s linear infinite, zk-glow 3s ease-in-out infinite;
   }
 
-  .zk-redact {
-    position: absolute;
-    inset: -2px -4px;
-    pointer-events: none;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--foreground) / 0.06) 30%,
-      hsl(var(--foreground) / 0.18) 50%,
-      hsl(var(--foreground) / 0.06) 70%,
-      transparent 100%
-    );
-    mix-blend-mode: difference;
-    animation: zk-redact-sweep 5s ease-in-out infinite;
-    animation-delay: 1.5s;
-    border-radius: 2px;
+  .zk-melt {
+    display: inline-block;
+    animation: zk-melt 6s ease-in-out infinite;
+    will-change: opacity, filter, transform, letter-spacing;
   }
 }
