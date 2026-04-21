@@ -96,13 +96,26 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
       </>
     ),
     body: (
-      <p>
-        ZOKA is built in the open. The reference implementation, cryptographic
-        primitives and node software will be released under permissive licenses.
-        <span className="block mt-6 font-mono text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
-          github.com/zoka-protocol
+      <div>
+        <p>
+          ZOKA is built in the open. The reference implementation, cryptographic
+          primitives and node software will be released under permissive licenses.
+        </p>
+        <div className="mt-10 flex flex-wrap items-center gap-6">
+          <a
+            href="https://github.com/ZOKACHAIN"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.3em] uppercase text-foreground"
+          >
+            <span>Visit GitHub</span>
+            <span className="opacity-60 group-hover:opacity-100 transition-opacity">↗</span>
+          </a>
+        </div>
+        <span className="block mt-8 font-mono text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
+          github.com/ZOKACHAIN
         </span>
-      </p>
+      </div>
     ),
   },
   wallet: {
