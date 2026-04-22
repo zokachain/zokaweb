@@ -127,13 +127,55 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
       </>
     ),
     body: (
-      <p>
-        The ZOKA wallet is a non-custodial interface to the shielded network.
-        Send, receive and prove — without revealing balances, counterparties or intent.
-        <span className="block mt-6 font-mono text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
-          Testnet launching Q3
-        </span>
-      </p>
+      <div>
+        <p>
+          The ZOKA wallet is a non-custodial interface to the shielded network.
+          Send, receive and prove — without revealing balances, counterparties or intent.
+        </p>
+        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+          {[
+            { id: "01", name: "Desktop", desc: "Windows · macOS · Linux", status: "available", href: "#" },
+            { id: "02", name: "Android", desc: "APK · Play Store", status: "available", href: "#" },
+            { id: "03", name: "iOS", desc: "iPhone · iPad", status: "soon", href: null },
+          ].map((w) => {
+            const isSoon = w.status === "soon";
+            const base =
+              "group relative flex flex-col justify-between p-5 border border-border transition-colors min-h-[140px]";
+            const inner = (
+              <>
+                <div className="flex items-start justify-between">
+                  <span className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground">{w.id}</span>
+                  <span
+                    className={
+                      "font-mono text-[10px] tracking-[0.25em] uppercase " +
+                      (isSoon ? "text-muted-foreground/70" : "text-foreground")
+                    }
+                  >
+                    {isSoon ? "Coming soon" : "Available"}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-lg font-light text-foreground">{w.name}</div>
+                  <div className="text-xs text-muted-foreground font-light mt-1">{w.desc}</div>
+                </div>
+              </>
+            );
+            return isSoon ? (
+              <div key={w.id} className={base + " opacity-60 cursor-not-allowed"}>
+                {inner}
+              </div>
+            ) : (
+              <a
+                key={w.id}
+                href={w.href!}
+                className={base + " hover:border-foreground"}
+              >
+                {inner}
+              </a>
+            );
+          })}
+        </div>
+      </div>
     ),
   },
 };
