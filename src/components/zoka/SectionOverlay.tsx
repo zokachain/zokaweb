@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Monitor, Smartphone, Apple, Github, Play } from "lucide-react";
 import type { SectionKey } from "./Nav";
 
 interface Props {
@@ -132,19 +132,21 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
           The ZOKA wallet is a non-custodial interface to the shielded network.
           Send, receive and prove — without revealing balances, counterparties or intent.
         </p>
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { id: "01", name: "Desktop", desc: "Windows · macOS · Linux", status: "available", href: "#" },
-            { id: "02", name: "Android", desc: "APK · Play Store", status: "available", href: "#" },
-            { id: "03", name: "iOS", desc: "iPhone · iPad", status: "soon", href: null },
+            { id: "01", name: "Desktop", desc: "Windows", status: "available", href: "#", Icon: Monitor, badge: ".exe" },
+            { id: "02", name: "Android", desc: "APK · Direct download", status: "available", href: "https://github.com/ZOKACHAIN", Icon: Github, badge: "GitHub" },
+            { id: "03", name: "Android", desc: "Google Play", status: "available", href: "#", Icon: Play, badge: "Play Store" },
+            { id: "04", name: "iOS", desc: "iPhone · iPad", status: "soon", href: null, Icon: Apple, badge: "App Store" },
           ].map((w) => {
             const isSoon = w.status === "soon";
+            const Icon = w.Icon;
             const base =
-              "group relative flex flex-col justify-between p-5 border border-border transition-colors min-h-[140px]";
+              "group relative flex flex-col justify-between p-5 border border-border transition-colors min-h-[160px]";
             const inner = (
               <>
                 <div className="flex items-start justify-between">
-                  <span className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground">{w.id}</span>
+                  <Icon className="w-5 h-5 text-foreground/80" />
                   <span
                     className={
                       "font-mono text-[10px] tracking-[0.25em] uppercase " +
@@ -157,6 +159,9 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
                 <div>
                   <div className="text-lg font-light text-foreground">{w.name}</div>
                   <div className="text-xs text-muted-foreground font-light mt-1">{w.desc}</div>
+                  <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground/70 mt-3">
+                    {w.badge}
+                  </div>
                 </div>
               </>
             );
@@ -168,6 +173,8 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
               <a
                 key={w.id}
                 href={w.href!}
+                target={w.href!.startsWith("http") ? "_blank" : undefined}
+                rel={w.href!.startsWith("http") ? "noopener noreferrer" : undefined}
                 className={base + " hover:border-foreground"}
               >
                 {inner}
@@ -209,7 +216,7 @@ const SectionOverlay = ({ active, onClose }: Props) => {
         <X className="w-5 h-5" />
       </button>
 
-      <div className="relative h-full flex items-center overflow-y-auto pt-24 pb-16">
+      <div className="relative h-full flex items-center overflow-y-auto no-scrollbar pt-24 pb-16">
         <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
           <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase animate-fade-in">
             {data.eyebrow}
