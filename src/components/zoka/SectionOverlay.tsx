@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Monitor, Smartphone, Apple, Github, Play } from "lucide-react";
 import type { SectionKey } from "./Nav";
 
 interface Props {
