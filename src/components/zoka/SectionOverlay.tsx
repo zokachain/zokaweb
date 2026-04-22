@@ -216,7 +216,7 @@ const SectionOverlay = ({ active, onClose }: Props) => {
         <X className="w-5 h-5" />
       </button>
 
-      <div className="relative h-full flex items-center overflow-y-auto pt-24 pb-16">
+      <div className="relative h-full flex items-center overflow-y-auto no-scrollbar pt-24 pb-16">
         <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
           <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase animate-fade-in">
             {data.eyebrow}
