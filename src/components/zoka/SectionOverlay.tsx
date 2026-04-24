@@ -25,40 +25,76 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
     ),
   },
   whitepaper: {
-    eyebrow: "II. WHITEPAPER",
+    eyebrow: "II. WHITEPAPER · LITEPAPER",
     title: (
       <>
-        A cryptographic substrate<br />
-        <span className="text-gradient">for a private world.</span>
+        Two readings,<br />
+        <span className="text-gradient">one private protocol.</span>
       </>
     ),
     body: (
       <div>
         <p>
-          The ZOKA whitepaper outlines a four-layer protocol combining zk-SNARKs,
-          secure multi-party computation, and a shielded execution environment.
+          Choose your depth. The Whitepaper is the formal cryptographic specification.
+          The Litepaper is a plain-language introduction for everyone else.
         </p>
-        <div className="mt-10 flex flex-wrap items-center gap-6">
-          <a
-            href="/ZOKA_Whitepaper_v1.0.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-6 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.3em] uppercase text-foreground"
-          >
-            <span>Read whitepaper</span>
-            <span className="opacity-60 group-hover:opacity-100 transition-opacity">↗</span>
-          </a>
-          <a
-            href="/ZOKA_Whitepaper_v1.0.pdf"
-            download
-            className="font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Download PDF
-          </a>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          {[
+            {
+              id: "01",
+              tag: "Technical",
+              name: "Whitepaper",
+              desc: "Four-layer protocol · zk-SNARKs · MPC · shielded execution. For researchers and engineers.",
+              version: "v1.0 · Released",
+              href: "/ZOKA_Whitepaper_v1.0.pdf",
+              cta: "Read whitepaper",
+              FormulaIcon: FileText,
+            },
+            {
+              id: "02",
+              tag: "For everyone",
+              name: "Litepaper",
+              desc: "What ZOKA is, why privacy matters, and how to use it. Plain language, no math required.",
+              version: "v1.0 · Released",
+              href: "/ZOKA_Litepaper_v1.0.pdf",
+              cta: "Read litepaper",
+              FormulaIcon: BookOpen,
+            },
+          ].map((d) => {
+            const Icon = d.FormulaIcon;
+            return (
+              <a
+                key={d.id}
+                href={d.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex flex-col justify-between p-6 border border-border hover:border-foreground transition-colors min-h-[220px]"
+              >
+                <div className="flex items-start justify-between">
+                  <Icon className="w-5 h-5 text-foreground/80" />
+                  <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+                    {d.tag}
+                  </span>
+                </div>
+                <div className="mt-8">
+                  <div className="text-2xl font-extralight text-foreground">{d.name}</div>
+                  <div className="text-sm text-muted-foreground font-light mt-2 leading-relaxed">
+                    {d.desc}
+                  </div>
+                </div>
+                <div className="mt-6 flex items-center justify-between">
+                  <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-foreground inline-flex items-center gap-2">
+                    {d.cta}
+                    <span className="opacity-60 group-hover:opacity-100 transition-opacity">↗</span>
+                  </span>
+                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground/70">
+                    {d.version}
+                  </span>
+                </div>
+              </a>
+            );
+          })}
         </div>
-        <span className="block mt-8 font-mono text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
-          v1.0 · Released
-        </span>
       </div>
     ),
   },
