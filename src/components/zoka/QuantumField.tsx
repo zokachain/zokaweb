@@ -1,9 +1,13 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Quantum / privacy field — monochrome.
- * Probability cloud of particles that periodically "collapse" into
- * wave interference rings, then disperse again. No colour.
+ * Privacy field — a cryptographic veil.
+ *
+ * Streams of binary / hex glyphs rain down the canvas, occasionally getting
+ * "redacted" by black bars (like a classified document) and re-encrypted with
+ * soft propagation rings. Pure monochrome, designed to feel like data being
+ * obscured in real time. Intentionally dense so it competes visually with
+ * the headline and reinforces the "privacy protocol" idea.
  */
 const QuantumField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,20 +34,44 @@ const QuantumField = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const PARTICLE_COUNT = 220;
-    type P = { x: number; y: number; angle: number; radius: number; speed: number; phase: number; size: number };
-    const particles: P[] = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: 0,
-      y: 0,
-      angle: Math.random() * Math.PI * 2,
-      radius: 80 + Math.random() * 320,
-      speed: 0.0005 + Math.random() * 0.0015,
-      phase: Math.random() * Math.PI * 2,
-      size: 0.4 + Math.random() * 1.2,
-    }));
+    const GLYPHS = "01ABCDEF0123456789∎▮▮□◇◆⌬⎔".split("");
+    const FONT_SIZE = 14;
+    const COL_W = FONT_SIZE;
+    let cols = Math.ceil(width / COL_W);
 
-    // Read theme tokens from CSS so the animation adapts to dark/light.
-    // Use modern hsl(H S L / A) syntax which supports space-separated values.
+    type Drop = {
+      y: number;
+      speed: number;
+      head: number;     // brightness of leading glyph
+      density: number;  // how often glyphs render
+      redactAt: number; // y position where this column gets a redaction bar
+      redactLen: number;
+      redactPhase: number;
+    };
+
+    const makeDrop = (): Drop => ({
+      y: Math.random() * -height,
+      speed: 0.4 + Math.random() * 1.6,
+      head: 0.6 + Math.random() * 0.4,
+      density: 0.55 + Math.random() * 0.4,
+      redactAt: Math.random() * height,
+      redactLen: 30 + Math.random() * 140,
+      redactPhase: Math.random() * Math.PI * 2,
+    });
+
+    let drops: Drop[] = Array.from({ length: cols }, makeDrop);
+
+    type Ring = { x: number; y: number; r: number; max: number; born: number };
+    const rings: Ring[] = [];
+
+    const onResize = () => {
+      resize();
+      cols = Math.ceil(width / COL_W);
+      drops = Array.from({ length: cols }, makeDrop);
+    };
+    window.removeEventListener("resize", resize);
+    window.addEventListener("resize", onResize);
+
     const getTokens = () => {
       const styles = getComputedStyle(document.documentElement);
       const fg = styles.getPropertyValue("--foreground").trim() || "0 0% 98%";
@@ -53,45 +81,97 @@ const QuantumField = () => {
 
     let raf = 0;
     const start = performance.now();
+    let lastRing = 0;
 
     const tick = (now: number) => {
       const t = (now - start) / 1000;
-      const cx = width / 2;
-      const cy = height / 2;
       const { fg, bg } = getTokens();
 
-      // Trail effect using the page background.
-      ctx.fillStyle = `hsl(${bg} / 0.18)`;
+      // Smear previous frame for a phosphor / decay trail
+      ctx.fillStyle = `hsl(${bg} / 0.12)`;
       ctx.fillRect(0, 0, width, height);
 
-      // Quantum collapse cycle — every ~6s.
-      const cycle = (t % 6) / 6;
-      const collapse = Math.pow(Math.sin(cycle * Math.PI), 6);
+      // Vignette towards centre so the headline reads cleanly
+      const vignette = ctx.createRadialGradient(
+        width / 2, height / 2, Math.min(width, height) * 0.1,
+        width / 2, height / 2, Math.max(width, height) * 0.7
+      );
+      vignette.addColorStop(0, `hsl(${bg} / 0.35)`);
+      vignette.addColorStop(1, `hsl(${bg} / 0)`);
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, width, height);
 
-      // Concentric interference rings (probability waves)
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < 5; i++) {
-        const r = ((t * 30 + i * 90) % 500) + 20;
-        const alpha = (1 - r / 520) * 0.15 * (1 - collapse * 0.5);
-        ctx.strokeStyle = `hsl(${fg} / ${alpha})`;
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.stroke();
+      // Glyph rain
+      ctx.font = `${FONT_SIZE}px 'JetBrains Mono', monospace`;
+      ctx.textBaseline = "top";
+
+      for (let i = 0; i < cols; i++) {
+        const d = drops[i];
+        const x = i * COL_W;
+
+        if (Math.random() < d.density) {
+          const ch = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+          // Trailing glyph (dim)
+          ctx.fillStyle = `hsl(${fg} / 0.18)`;
+          ctx.fillText(ch, x, d.y);
+          // Leading glyph (bright) — emphasises movement
+          const headCh = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+          ctx.fillStyle = `hsl(${fg} / ${d.head})`;
+          ctx.fillText(headCh, x, d.y + FONT_SIZE * 0.2);
+        }
+
+        d.y += d.speed * 1.6;
+        if (d.y > height + 20) {
+          drops[i] = makeDrop();
+          drops[i].y = -20;
+        }
       }
 
-      // Particles orbiting the centre with quantum jitter
-      for (const p of particles) {
-        p.angle += p.speed;
-        const jitter = Math.sin(t * 2 + p.phase) * 12;
-        const r = p.radius * (1 - collapse * 0.55) + jitter;
-        p.x = cx + Math.cos(p.angle) * r;
-        p.y = cy + Math.sin(p.angle) * r * 0.55;
+      // Redaction bars — "censor" random horizontal bands occasionally
+      const redactCount = 3;
+      for (let i = 0; i < redactCount; i++) {
+        const phase = (t * 0.35 + i * 1.7) % 6;
+        if (phase < 1.4) {
+          const alpha = Math.sin((phase / 1.4) * Math.PI) * 0.85;
+          const seed = Math.floor(t * 0.35 + i * 1.7);
+          const rand = Math.sin(seed * 999.13) * 0.5 + 0.5;
+          const y = rand * height;
+          const h = 14 + (Math.sin(seed * 12.7) * 0.5 + 0.5) * 26;
+          const x = (Math.sin(seed * 41.3) * 0.5 + 0.5) * width * 0.4;
+          const w = width * (0.35 + (Math.sin(seed * 7.1) * 0.5 + 0.5) * 0.55);
+          ctx.fillStyle = `hsl(${fg} / ${alpha})`;
+          ctx.fillRect(x, y, w, h);
+          // Inner cut to look like a redacted block
+          ctx.fillStyle = `hsl(${bg} / ${alpha * 0.35})`;
+          ctx.fillRect(x + 4, y + 4, Math.max(0, w - 8), Math.max(0, h - 8));
+        }
+      }
 
-        const a = 0.35 + Math.sin(t * 1.5 + p.phase) * 0.25 + collapse * 0.4;
-        ctx.fillStyle = `hsl(${fg} / ${Math.max(0.05, a)})`;
+      // Propagation rings — encryption pulses
+      if (now - lastRing > 1100) {
+        rings.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: 0,
+          max: 200 + Math.random() * 260,
+          born: now,
+        });
+        lastRing = now;
+      }
+      ctx.lineWidth = 0.6;
+      for (let i = rings.length - 1; i >= 0; i--) {
+        const r = rings[i];
+        const life = (now - r.born) / 2200;
+        if (life >= 1) {
+          rings.splice(i, 1);
+          continue;
+        }
+        r.r = r.max * life;
+        const a = (1 - life) * 0.35;
+        ctx.strokeStyle = `hsl(${fg} / ${a})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size + collapse * 0.6, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+        ctx.stroke();
       }
 
       raf = requestAnimationFrame(tick);
@@ -100,7 +180,7 @@ const QuantumField = () => {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 

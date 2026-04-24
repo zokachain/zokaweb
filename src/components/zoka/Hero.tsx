@@ -5,8 +5,11 @@ const Hero = () => (
     {/* monochrome quantum animation */}
     <QuantumField />
 
-    {/* subtle grid */}
-    <div className="absolute inset-0 grid-bg opacity-40" />
+    {/* subtle grid — kept very faint so the privacy field stays dominant */}
+    <div className="absolute inset-0 grid-bg opacity-20" />
+
+    {/* readability scrim behind the headline */}
+    <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-transparent pointer-events-none" />
 
     <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
       <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase animate-fade-in">
