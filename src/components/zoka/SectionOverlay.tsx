@@ -421,7 +421,7 @@ interface Props {
 
 const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; body: React.ReactNode }> = {
   about: {
-    eyebrow: "I. ABOUT",
+    eyebrow: "I. ABOUT · A MANIFESTO",
     title: (
       <>
         Privacy is not a feature.<br />
@@ -429,11 +429,192 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
       </>
     ),
     body: (
-      <p>
-        Every transaction, every contract, every identity within ZOKA is shielded
-        by zero-knowledge proofs. The network verifies what is true without
-        ever observing what is private.
-      </p>
+      <div className="space-y-12">
+        {/* Author signature */}
+        <div className="flex items-center gap-4 pb-6 border-b border-border">
+          <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center font-mono text-[11px] tracking-[0.15em] text-foreground">
+            NZ
+          </div>
+          <div className="flex flex-col">
+            <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">
+              Written by Natosh Zoka
+            </span>
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+              core dev @ Zokachain
+            </span>
+          </div>
+        </div>
+
+        {/* Opening */}
+        <div className="space-y-6">
+          <p className="text-lg md:text-xl font-extralight leading-relaxed text-foreground">
+            I did not build ZOKA to launch a token. I built it because I believe the right to
+            transact in private is the last frontier of individual freedom — and that frontier
+            is being eroded, block by block, ledger by ledger, in front of our eyes.
+          </p>
+          <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
+            What follows is not a pitch. It is a position. If you disagree with it, ZOKA is
+            probably not for you. If you read it and feel something settle into place, then
+            welcome — you are already part of this.
+          </p>
+        </div>
+
+        {/* Manifesto chapters */}
+        <div className="space-y-0 border-t border-border">
+          {[
+            {
+              id: "01",
+              title: "Privacy is the default state of being human",
+              body: (
+                <>
+                  Before currency, before contracts, before institutions — humans whispered.
+                  We chose, in private, who to trust with our intentions. Privacy is not a
+                  modern legal construct invented by lawyers; it is the default operating
+                  mode of every honest social interaction. Anything that turns it into an
+                  exception is the anomaly, not the other way around.
+                </>
+              ),
+            },
+            {
+              id: "02",
+              title: "A transparent ledger is a surveillance ledger",
+              body: (
+                <>
+                  Bitcoin was a beautiful idea — but a fully transparent chain is, in
+                  practice, a permanent surveillance database that anyone, including states
+                  and corporations, can mine forever. Every coffee, every salary, every
+                  donation — visible, correlatable, immutable. <span className="text-foreground">"Pseudonymous"</span> is
+                  not privacy. It is a thin curtain in a room full of cameras.
+                </>
+              ),
+            },
+            {
+              id: "03",
+              title: "Standing on the shoulders of cypherpunks",
+              body: (
+                <>
+                  ZOKA does not pretend to invent privacy. It inherits it. From{" "}
+                  <span className="text-foreground">David Chaum</span> and his blind
+                  signatures in 1982, to the <span className="text-foreground">Cypherpunks</span> of
+                  the 90s who declared that <span className="italic">"privacy is necessary for an open society
+                  in the electronic age"</span>. From <span className="text-foreground">Zcash</span> proving
+                  that zk-SNARKs could shield value at scale, to{" "}
+                  <span className="text-foreground">Monero</span> defending the principle that
+                  privacy must be the default, never an option. From{" "}
+                  <span className="text-foreground">Tor</span> and <span className="text-foreground">I2P</span> teaching
+                  us how to hide the wire itself. Every line of ZOKA is a thank-you note to
+                  those who came before, and refused to compromise.
+                </>
+              ),
+            },
+            {
+              id: "04",
+              title: "Optional privacy is no privacy",
+              body: (
+                <>
+                  Any chain that lets you "turn on" private mode for some transactions has
+                  already lost. The moment privacy is optional, using it becomes a signal —
+                  a flag for any analyst to follow. ZOKA has no shielded mode and no
+                  transparent mode. There is one mode. The protocol refuses, at the type
+                  level, to broadcast value in cleartext.
+                </>
+              ),
+            },
+            {
+              id: "05",
+              title: "I do not ask you to trust me",
+              body: (
+                <>
+                  I am one developer. I will make mistakes. The whole point of building on
+                  zero-knowledge cryptography, MPC ceremonies and open code is so that you
+                  do not have to take my word for anything. Verify the proofs. Audit the
+                  circuits. Run a node. If ZOKA only works because you trust Natosh Zoka,
+                  then ZOKA has already failed. It works because the math holds.
+                </>
+              ),
+            },
+            {
+              id: "06",
+              title: "Honest about what we cannot do",
+              body: (
+                <>
+                  ZOKA will not protect you from a global passive adversary that watches
+                  every wire on Earth. It will not save you if you reuse addresses across
+                  your real identity. It is not post-quantum today. I will not promise
+                  perfection, because perfect privacy is a marketing word, not a
+                  cryptographic one. What I promise is the strongest privacy I know how to
+                  ship, with the limits written down in plain text — not buried in a
+                  footnote.
+                </>
+              ),
+            },
+            {
+              id: "07",
+              title: "No premine. No foundation. No backdoor.",
+              body: (
+                <>
+                  There is no pre-mine, no founder allocation, no <span className="italic">"compliance"</span> view
+                  key the protocol can hand over. The only entity that can ever reveal a
+                  ZOKA transaction is the user who owns the key. Not me. Not a foundation.
+                  Not a regulator. If that scares some people, good. It means the design is
+                  doing its job.
+                </>
+              ),
+            },
+            {
+              id: "08",
+              title: "Why I am writing this",
+              body: (
+                <>
+                  Most of what I do happens in silence — circuits, consensus, refactors that
+                  nobody will ever read. But once, I owe it to whoever is reading this to
+                  state the thing out loud: <span className="text-foreground">privacy is not a crime, it is a civic
+                  infrastructure.</span> ZOKA is my contribution to that infrastructure. Use it
+                  to pay for things. Use it to receive a salary without your employer
+                  knowing the rest of your life. Use it to donate to causes that the next
+                  regime might criminalize. Use it for nothing, just to know it exists.
+                  <br />
+                  <br />
+                  That is enough for me.
+                </>
+              ),
+            },
+          ].map((c) => (
+            <div
+              key={c.id}
+              className="grid grid-cols-12 gap-4 md:gap-6 py-8 border-b border-border last:border-0"
+            >
+              <div className="col-span-12 md:col-span-1 font-mono text-xs text-muted-foreground">
+                {c.id}
+              </div>
+              <div className="col-span-12 md:col-span-11 space-y-3">
+                <h3 className="text-xl md:text-2xl font-extralight tracking-[-0.01em] text-foreground">
+                  {c.title}
+                </h3>
+                <p className="text-base text-muted-foreground font-light leading-relaxed">
+                  {c.body}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Closing signature */}
+        <div className="pt-6 flex flex-col gap-2">
+          <p className="text-base md:text-lg font-light text-foreground italic">
+            "Verify what is true. Reveal nothing else."
+          </p>
+          <div className="flex items-center gap-3 mt-4">
+            <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-foreground">
+              — Natosh Zoka
+            </span>
+            <span className="h-px flex-1 bg-border" />
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+              core dev @ Zokachain
+            </span>
+          </div>
+        </div>
+      </div>
     ),
   },
   whitepaper: {
