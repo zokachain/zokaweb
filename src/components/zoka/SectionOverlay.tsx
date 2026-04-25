@@ -361,7 +361,7 @@ const docChapters: DocChapter[] = [
 ];
 
 const DocsAccordion = () => {
-  const [open, setOpen] = useState<string | null>("01");
+  const [open, setOpen] = useState<string | null>(null);
   return (
     <div className="space-y-12">
       <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
@@ -373,7 +373,18 @@ const DocsAccordion = () => {
         {docChapters.map((ch) => {
           const isOpen = open === ch.id;
           return (
-            <div key={ch.id} className="border-b border-border">
+            <div
+              key={ch.id}
+              className="border-b border-border scroll-mt-24"
+              ref={(el) => {
+                if (el && isOpen) {
+                  // Bring the opened chapter header into view smoothly
+                  requestAnimationFrame(() => {
+                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  });
+                }
+              }}
+            >
               <button
                 type="button"
                 onClick={() => setOpen(isOpen ? null : ch.id)}
@@ -638,16 +649,18 @@ const SectionOverlay = ({ active, onClose }: Props) => {
         <X className="w-5 h-5" />
       </button>
 
-      <div className="relative h-full flex items-center overflow-y-auto no-scrollbar pt-24 pb-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
-          <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase animate-fade-in">
-            {data.eyebrow}
-          </div>
-          <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-extralight leading-[1.05] tracking-[-0.03em] mb-12 animate-fade-in">
-            {data.title}
-          </h2>
-          <div className="max-w-2xl text-base md:text-lg text-muted-foreground font-light leading-relaxed animate-fade-in">
-            {data.body}
+      <div className="relative h-full overflow-y-auto no-scrollbar">
+        <div className="min-h-full flex flex-col justify-start pt-24 pb-24">
+          <div className="max-w-5xl mx-auto px-6 md:px-10 w-full">
+            <div className="font-mono text-[11px] tracking-[0.4em] text-muted-foreground mb-10 uppercase animate-fade-in">
+              {data.eyebrow}
+            </div>
+            <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-extralight leading-[1.05] tracking-[-0.03em] mb-12 animate-fade-in">
+              {data.title}
+            </h2>
+            <div className="text-base md:text-lg text-muted-foreground font-light leading-relaxed animate-fade-in">
+              {data.body}
+            </div>
           </div>
         </div>
       </div>
