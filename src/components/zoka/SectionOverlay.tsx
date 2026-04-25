@@ -361,7 +361,7 @@ const docChapters: DocChapter[] = [
 ];
 
 const DocsAccordion = () => {
-  const [open, setOpen] = useState<string | null>("01");
+  const [open, setOpen] = useState<string | null>(null);
   return (
     <div className="space-y-12">
       <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
