@@ -373,7 +373,18 @@ const DocsAccordion = () => {
         {docChapters.map((ch) => {
           const isOpen = open === ch.id;
           return (
-            <div key={ch.id} className="border-b border-border">
+            <div
+              key={ch.id}
+              className="border-b border-border scroll-mt-24"
+              ref={(el) => {
+                if (el && isOpen) {
+                  // Bring the opened chapter header into view smoothly
+                  requestAnimationFrame(() => {
+                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  });
+                }
+              }}
+            >
               <button
                 type="button"
                 onClick={() => setOpen(isOpen ? null : ch.id)}
