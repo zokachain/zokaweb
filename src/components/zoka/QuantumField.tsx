@@ -35,17 +35,22 @@ const QuantumField = () => {
     // Distribute N nodes on a sphere using the Fibonacci lattice — gives an
     // even, organic-looking distribution similar to the reference image.
     const NODE_COUNT = 42;
-    type Node = { x: number; y: number; z: number; pulse: number };
+    type Node = { x: number; y: number; z: number; pulse: number; accent: "none" | "green" | "red"; phase: number };
     const goldenAngle = Math.PI * (3 - Math.sqrt(5));
     const nodes: Node[] = Array.from({ length: NODE_COUNT }, (_, i) => {
       const y = 1 - (i / (NODE_COUNT - 1)) * 2;
       const r = Math.sqrt(1 - y * y);
       const theta = goldenAngle * i;
+      // ~25% green accents, ~12% red accents — sparse and intentional
+      const roll = Math.random();
+      const accent: Node["accent"] = roll < 0.25 ? "green" : roll < 0.37 ? "red" : "none";
       return {
         x: Math.cos(theta) * r,
         y,
         z: Math.sin(theta) * r,
         pulse: Math.random() * Math.PI * 2,
+        accent,
+        phase: Math.random() * Math.PI * 2,
       };
     });
 
