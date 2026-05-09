@@ -207,4 +207,40 @@
     height: 0;
     display: none;
   }
+
+  .zoka-cta-red {
+    background: linear-gradient(135deg, #B82414 0%, #8B190A 50%, #5A0F06 100%);
+    box-shadow:
+      0 0 0 1px hsl(0 80% 30% / 0.5),
+      0 8px 24px -6px hsl(8 85% 30% / 0.6),
+      0 0 32px -4px hsl(8 90% 40% / 0.45),
+      inset 0 1px 0 hsl(0 90% 70% / 0.25);
+    transition: transform 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth), filter 0.4s var(--transition-smooth);
+    position: relative;
+  }
+  .zoka-cta-red::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, hsl(0 100% 85% / 0.35) 50%, transparent 70%);
+    background-size: 250% 100%;
+    background-position: 200% 0;
+    animation: zoka-cta-shine 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .zoka-cta-red:hover {
+    transform: translateY(-1px) scale(1.02);
+    filter: brightness(1.1);
+    box-shadow:
+      0 0 0 1px hsl(0 80% 40% / 0.6),
+      0 12px 32px -6px hsl(8 90% 35% / 0.75),
+      0 0 48px -2px hsl(8 95% 50% / 0.6),
+      inset 0 1px 0 hsl(0 90% 80% / 0.35);
+  }
 }
+
+@keyframes zoka-cta-shine {
+  0% { background-position: 200% 0; }
+  60%, 100% { background-position: -150% 0; }
+}
+

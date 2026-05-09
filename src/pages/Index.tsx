@@ -9,7 +9,7 @@ const Index = () => {
   return (
     <main className="relative h-screen overflow-hidden bg-background">
       <Nav active={active} onSelect={setActive} onHome={() => setActive(null)} />
-      <Hero />
+      <Hero onTestnet={() => setActive("testnet")} />
       <SectionOverlay active={active} onClose={() => setActive(null)} />
     </main>
   );

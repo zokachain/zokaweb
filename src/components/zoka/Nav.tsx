@@ -1,6 +1,6 @@
 import ThemeToggle from "./ThemeToggle";
 
-export type SectionKey = "about" | "whitepaper" | "docs" | "github" | "wallet";
+export type SectionKey = "about" | "whitepaper" | "docs" | "github" | "wallet" | "testnet";
 
 const links: { key: SectionKey; label: string }[] = [
   { key: "about", label: "About" },
