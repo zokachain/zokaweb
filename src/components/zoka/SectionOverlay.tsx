@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { X, Monitor, Smartphone, Apple, Github, Play, FileText, BookOpen, Plus, Minus } from "lucide-react";
+import { X, Monitor, Smartphone, Apple, Github, Play, FileText, BookOpen, Plus, Minus, Terminal, Download, Cpu, Server } from "lucide-react";
 import type { SectionKey } from "./Nav";
 
 interface DocChapter {
@@ -796,6 +796,245 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             );
           })}
         </div>
+      </div>
+    ),
+  },
+  testnet: {
+    eyebrow: "// HIDDEN · TESTNET IS LIVE",
+    title: (
+      <>
+        Run a node.<br />
+        <span className="text-gradient">Mine. Verify. Disappear.</span>
+      </>
+    ),
+    body: (
+      <div className="space-y-12">
+        {/* Status banner */}
+        <div className="flex flex-col md:flex-row md:items-center gap-4 p-5 border border-border bg-foreground/[0.02]">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[hsl(160_84%_55%)] opacity-60" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[hsl(160_84%_55%)]" />
+            </span>
+            <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-foreground">
+              Testnet · Online
+            </span>
+          </div>
+          <span className="hidden md:block h-4 w-px bg-border" />
+          <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+            Permissionless mining · Open validators · No KYC
+          </span>
+        </div>
+
+        <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
+          Welcome. This page is not listed in the menu — you found it because the
+          home page sent you here. The ZOKA testnet is up and anyone can join: run
+          a node, mine blocks, send private transactions. Below is a friendly,
+          step-by-step guide written for people who have <span className="text-foreground">never</span> touched a
+          terminal before.
+        </p>
+
+        {/* Steps */}
+        <div className="space-y-0 border-t border-border">
+          {[
+            {
+              id: "01",
+              icon: Download,
+              title: "Get the code",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    All the source code lives on GitHub. You don't have to understand it —
+                    you just need to download it. If you've never used GitHub, think of it
+                    as a public folder where the developer publishes the project.
+                  </p>
+                  <a
+                    href="https://github.com/zokachain/zoka-network"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-5 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.25em] uppercase text-foreground"
+                  >
+                    <Github className="w-4 h-4" />
+                    github.com/zokachain/zoka-network
+                    <span className="opacity-60">↗</span>
+                  </a>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div className="text-muted-foreground"># 1. Open a terminal (Mac: Terminal · Windows: PowerShell · Linux: bash)</div>
+                    <div className="text-muted-foreground"># 2. Copy and paste this command, then press Enter</div>
+                    <div className="mt-2">git clone https://github.com/zokachain/zoka-network.git</div>
+                    <div>cd zoka-network</div>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "02",
+              icon: Cpu,
+              title: "Install the prerequisites",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    ZOKA is written in Rust. You need to install Rust once (it's free,
+                    official, and safe). It will take a few minutes — that's normal.
+                  </p>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div className="text-muted-foreground"># macOS / Linux — install Rust:</div>
+                    <div>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</div>
+                    <div className="text-muted-foreground mt-3"># Windows — download installer from rustup.rs and follow the wizard.</div>
+                    <div className="text-muted-foreground mt-3"># Verify Rust is installed:</div>
+                    <div>rustc --version</div>
+                  </div>
+                  <p className="text-sm">
+                    If <span className="font-mono text-foreground">rustc --version</span> prints a
+                    number, you're ready. If not, close and reopen the terminal and try again.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: "03",
+              icon: Server,
+              title: "Build & run your node",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    A "node" is just a program on your computer that talks to other ZOKA
+                    nodes around the world. Running one helps the network and lets you
+                    verify everything yourself, without trusting anyone.
+                  </p>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div className="text-muted-foreground"># Inside the zoka-network folder:</div>
+                    <div>cargo build --release</div>
+                    <div className="text-muted-foreground mt-3"># Then start the node, connected to the public testnet:</div>
+                    <div>./target/release/zoka-node --network testnet</div>
+                  </div>
+                  <p className="text-sm">
+                    The first build can take 5–15 minutes. After that, your node will start
+                    syncing the chain — you'll see a stream of blocks appear in the terminal.
+                    Leave it running.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: "04",
+              icon: Terminal,
+              title: "Create a private wallet",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    A wallet is what holds your private keys — the secret that proves you
+                    own ZOK without revealing who you are. Generate one with a single command.
+                    <span className="text-foreground"> Save the seed phrase somewhere offline.</span> Nobody
+                    can recover it for you.
+                  </p>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div>./target/release/zoka-cli wallet new</div>
+                    <div className="text-muted-foreground mt-3"># Show your shielded address (starts with zpriv...):</div>
+                    <div>./target/release/zoka-cli wallet address</div>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "05",
+              icon: Cpu,
+              title: "Start mining",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    Mining means dedicating your CPU to securing the network. In return,
+                    when you find a block you receive a private coinbase reward in ZOK.
+                    ZOKA is intentionally <span className="text-foreground">CPU-friendly and ASIC-resistant</span>{" "}
+                    — a normal laptop is enough to participate.
+                  </p>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div className="text-muted-foreground"># Point the miner at your wallet address and start:</div>
+                    <div>./target/release/zoka-miner \</div>
+                    <div>&nbsp;&nbsp;--address zpriv1yourshieldedaddresshere... \</div>
+                    <div>&nbsp;&nbsp;--threads 4</div>
+                  </div>
+                  <p className="text-sm">
+                    Lower <span className="font-mono text-foreground">--threads</span> if your
+                    computer gets too hot. You can stop mining anytime with <span className="font-mono text-foreground">Ctrl + C</span>.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: "06",
+              icon: Server,
+              title: "Send your first private transaction",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    Once you have testnet ZOK (from mining, or from the faucet in the
+                    repository), you can send it privately. The amount, sender and receiver
+                    are all hidden by zero-knowledge proofs — only you and the recipient
+                    will ever know what happened.
+                  </p>
+                  <div className="font-mono text-xs bg-foreground/[0.03] border border-border p-4 text-foreground/90 overflow-x-auto">
+                    <div>./target/release/zoka-cli send \</div>
+                    <div>&nbsp;&nbsp;--to zpriv1recipientaddress... \</div>
+                    <div>&nbsp;&nbsp;--amount 1.0</div>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "07",
+              icon: Terminal,
+              title: "Stuck? Read the README",
+              body: (
+                <div className="space-y-4">
+                  <p>
+                    Every command, edge case and troubleshooting tip lives in the
+                    repository's README and <span className="font-mono text-foreground">/docs</span> folder.
+                    If something fails, copy the error and search there first — chances
+                    are someone already hit it.
+                  </p>
+                  <a
+                    href="https://github.com/zokachain/zoka-network#readme"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-5 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.25em] uppercase text-foreground"
+                  >
+                    Open the README
+                    <span className="opacity-60">↗</span>
+                  </a>
+                </div>
+              ),
+            },
+          ].map((s) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={s.id}
+                className="grid grid-cols-12 gap-4 md:gap-6 py-8 border-b border-border last:border-0"
+              >
+                <div className="col-span-12 md:col-span-1 font-mono text-xs text-muted-foreground">
+                  {s.id}
+                </div>
+                <div className="col-span-12 md:col-span-11 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Icon className="w-4 h-4 text-foreground/70" />
+                    <h3 className="text-xl md:text-2xl font-extralight tracking-[-0.01em] text-foreground">
+                      {s.title}
+                    </h3>
+                  </div>
+                  <div className="text-base text-muted-foreground font-light leading-relaxed space-y-3">
+                    {s.body}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <p className="text-sm text-muted-foreground/80 italic">
+          Reminder: this is a testnet. Coins have no monetary value. Use it to learn,
+          break things, and verify the protocol with your own eyes.
+        </p>
       </div>
     ),
   },
