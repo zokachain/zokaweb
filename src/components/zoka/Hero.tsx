@@ -15,34 +15,30 @@ const Hero = ({ onTestnet }: HeroProps) => (
     {/* readability scrim behind the headline */}
     <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-transparent pointer-events-none" />
 
-    <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
-      <h1 className="text-[clamp(2rem,5.5vw,5.5rem)] font-extralight leading-[0.95] tracking-[-0.04em] max-w-3xl animate-fade-in">
-        A network<br />
-        <span className="text-gradient font-light">without witnesses.</span>
+    {/* Top-left headline cluster — leaves the central nodes visible */}
+    <div className="absolute top-24 md:top-28 left-6 md:left-10 z-10 max-w-md animate-fade-in">
+      <h1 className="text-[clamp(1.5rem,3.2vw,2.75rem)] font-extralight leading-[1.05] tracking-[-0.03em]">
+        <span className="zk-melt inline-block">A network without witnesses.</span>
+        <br />
+        <span className="zk-melt inline-block text-gradient font-light mt-2 text-[clamp(1rem,2vw,1.6rem)] tracking-[0.1em] uppercase font-mono" style={{ animationDelay: "1.5s" }}>
+          Zero-Knowledge Proofs
+        </span>
       </h1>
+    </div>
 
-      <div className="mt-10 flex items-center gap-4 animate-fade-in">
-        <div className="zk-badge font-mono text-[10px] tracking-[0.3em] uppercase text-foreground/70">
-          Powered by
-        </div>
-        <div className="relative font-mono text-sm md:text-base tracking-[0.15em] uppercase font-medium text-foreground/90">
-          <span className="zk-melt">Zero-Knowledge Proofs</span>
-        </div>
-      </div>
-
-      <div className="mt-12 animate-fade-in">
-        <button
-          onClick={onTestnet}
-          className="group relative inline-flex items-center gap-3 px-7 py-3.5 font-mono text-[11px] tracking-[0.3em] uppercase text-white rounded-sm overflow-hidden zoka-cta-red"
-          aria-label="Enter the testnet"
-        >
-          <span className="relative z-10 flex items-center gap-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            Testnet is live
-            <span className="opacity-70 group-hover:translate-x-1 transition-transform">→</span>
-          </span>
-        </button>
-      </div>
+    {/* Bottom-left CTA — clear of the central animation */}
+    <div className="absolute bottom-16 md:bottom-20 left-6 md:left-10 z-10 animate-fade-in">
+      <button
+        onClick={onTestnet}
+        className="group relative inline-flex items-center gap-3 px-6 py-3 font-mono text-[10px] tracking-[0.3em] uppercase text-white rounded-full zoka-cta-red"
+        aria-label="Enter the testnet"
+      >
+        <span className="relative z-10 flex items-center gap-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-white/90" />
+          Testnet is live
+          <span className="opacity-70 group-hover:translate-x-1 transition-transform">→</span>
+        </span>
+      </button>
     </div>
   </section>
 );
